@@ -1,13 +1,13 @@
-let express = require('express')
+const express = require('express')
 
-let app = express ();
+const app = express()
 
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080
 
-let apiRoutes=require('./api-routes');
+const apiRoutes = require('./api-routes')
 
-app.use('/api',apiRoutes);
+app.use('/api', apiRoutes)
 
-app.listen(port,function(){
-    console.log("Running Test Server on port"+port);
-});
+app.listen(port, () => {
+  console.log(`Running Test Server on port${port}`)
+})

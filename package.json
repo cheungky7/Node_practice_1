@@ -12,5 +12,11 @@
     "express": "^4.16.4",
     "mongoose": "^5.3.12",
     "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.11.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }
