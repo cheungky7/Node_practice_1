@@ -1,5 +1,10 @@
+
 const router = require('express').Router()
 const controller = require('./api-controller')
+
+
+//router.use(bodyParser.json())
+
 
 router.get('/', (req, res) => {
   return res.json({
@@ -8,8 +13,10 @@ router.get('/', (req, res) => {
   })
 })
 
-router.get('/test', controller.test);
+router.get('/test', controller.test)
 
-router.get('/all', controller.getAll);
+router.get('/all', controller.getAll)
+
+router.post('/insert', controller.insertABook)
 
 module.exports = router

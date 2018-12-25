@@ -14,7 +14,7 @@ exports.query= (Sql,options,callback)=> {
         } else {
             conn.query(Sql,options,function(err,results,fields){
                 conn.release();
-                callback(err,result,fields);
+                callback(err,results,fields);
             })
         }
 
