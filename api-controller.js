@@ -1,4 +1,5 @@
 const db = require('./SQLPool')
+const logger = require('./logger')
 
 exports.test = (req, res) => {
   return res.json({
@@ -37,8 +38,15 @@ const queryStringInsertABook = 'INSERT INTO `Test2`.`books`(`name`,`ISBN`,`aurth
 exports.insertABook = (req, res) => {
  // console.log(req)
  // console.log(queryStringInsertABook);
+ 
   const InsertValues = [req.body.name,
     req.body.ISBN, req.body.aurthor, req.body.publishdate]
+
+  logger.log({
+    level: 'info',
+    message: `${queryStringInsertABook}`
+  });
+
   db.query(queryStringInsertABook, InsertValues, (err, results, fields) => {
     if (err != null) {
       return res.json({ status: 'db error', error: JSON.stringify(err) })
