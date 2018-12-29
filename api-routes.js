@@ -19,4 +19,6 @@ router.get('/all', controller.getAll)
 
 router.post('/insert', controller.insertABook)
 
+router.post('/register', controller.userRegister)
+
 module.exports = router

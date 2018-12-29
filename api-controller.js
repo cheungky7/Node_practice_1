@@ -1,5 +1,6 @@
 const db = require('./SQLPool')
 const logger = require('./logger')
+const bcrypt = require('bcryptjs')
 
 exports.test = (req, res) => {
   return res.json({
@@ -8,9 +9,10 @@ exports.test = (req, res) => {
   })
 }
 
-const queryStringAll = 'select* from books'
+
 
 exports.getAll = (req, res) => {
+  const queryStringAll = 'select* from books'
   db.query(queryStringAll, (err, results, fields) => {
     if (err != null) {
       return res.json({ status: 'db error' })
@@ -33,12 +35,10 @@ VALUES
 20181012);
 */
 
-const queryStringInsertABook = 'INSERT INTO `Test2`.`books`(`name`,`ISBN`,`aurthor`,`publish date`)VALUES(?,?,?,?)'
-
 exports.insertABook = (req, res) => {
- // console.log(req)
- // console.log(queryStringInsertABook);
- 
+  // console.log(req)
+  // console.log(queryStringInsertABook);
+  const queryStringInsertABook = 'INSERT INTO `Test2`.`books`(`name`,`ISBN`,`aurthor`,`publish date`)VALUES(?,?,?,?)'
   const InsertValues = [req.body.name,
     req.body.ISBN, req.body.aurthor, req.body.publishdate]
 
@@ -54,3 +54,21 @@ exports.insertABook = (req, res) => {
     return res.json({ result: results, field: fields })
   })
 }
+
+exports.userRegister = (req, res) => {
+  const queryString = 'INSERT INTO `Test2`.`users`(`email`,`username`,`password`)VALUES(?,?,?)'
+  const salt = bcrypt.genSaltSync(10)
+  const encryptedPassword = bcrypt.hashSync(req.body.password, salt)
+  const InsertValues = [req.body.email, req.body.username, encryptedPassword]
+  db.query(queryString, InsertValues, (err, results, fields) => {
+    if (err != null) {
+      return res.json({ status: 'db error', error: JSON.stringify(err) })
+    }
+    return res.json({ result: results, field: fields })
+  })
+}
+/*
+exports.userLogin = (req, res) => {
+
+}
+*/
