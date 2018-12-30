@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 router.get('/test', controller.test)
 
-router.post('/all', controller.getAll)
+router.post('/all', controller.verifyJWT, controller.getAll)
 
 router.post('/insert', controller.insertABook)
 

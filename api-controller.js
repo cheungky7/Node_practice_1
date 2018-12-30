@@ -11,21 +11,33 @@ exports.test = (req, res) => {
   })
 }
 
+exports.verifyJWT = (req, res, next) => {
+  // console.log('LOGGED');
+  const token = req.body.token
+  jwt.verify(token, config.secret, (err, decoded) => {
+    // console.log(err)
+    // console.log(decoded) 
+    if (err != null) {
+      // return res.json({ status: 'error', error: err })
+      return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' })
+    }
+
+    req.id = decoded.id;
+  })
+
+  next()
+}
+
 exports.getAll = (req, res) => {
 
-  /* const token = req.headers['x-access-token']
-
-  jwt.verify(token, config.secret, (err, decoded) => {
-    console.log(decoded) 
-  })
-*/
+/*
   const token = req.body.token
 
   jwt.verify(token, config.secret, (err, decoded) => {
     console.log(err)
     console.log(decoded) 
   })
-
+*/
   const queryStringAll = 'select* from books'
   db.query(queryStringAll, (err, results, fields) => {
     if (err != null) {
