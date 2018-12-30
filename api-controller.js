@@ -1,6 +1,8 @@
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const db = require('./SQLPool')
 const logger = require('./logger')
-const bcrypt = require('bcryptjs')
+const config = require('./config')
 
 exports.test = (req, res) => {
   return res.json({
@@ -9,9 +11,21 @@ exports.test = (req, res) => {
   })
 }
 
-
-
 exports.getAll = (req, res) => {
+
+  /* const token = req.headers['x-access-token']
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    console.log(decoded) 
+  })
+*/
+  const token = req.body.token
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    console.log(err)
+    console.log(decoded) 
+  })
+
   const queryStringAll = 'select* from books'
   db.query(queryStringAll, (err, results, fields) => {
     if (err != null) {
@@ -67,8 +81,27 @@ exports.userRegister = (req, res) => {
     return res.json({ result: results, field: fields })
   })
 }
-/*
+
 exports.userLogin = (req, res) => {
 
+  const queryString = 'SELECT password from Test2.users where username=?'
+  const InsertValues = [req.body.username ]
+  db.query(queryString, InsertValues, (err, results, fields) => {
+    if(err != null) {
+      return res.json({ status: 'db error', error: JSON.stringify(err) })
+    }
+    console.log(results)
+    // console.log(req.body.password)
+    const passwordInput = req.body.password
+    const password = results[0].password
+
+    if (bcrypt.compareSync(passwordInput, password)) {
+      const gentoken = jwt.sign({ id: req.body.username }, config.secret, {
+        expiresIn: 86400 // expires in 24 hours
+      })
+
+      return res.json({ token: gentoken })
+    }
+    return res.json({ status: 'password not correct' })
+  })
 }
-*/

@@ -15,10 +15,12 @@ router.get('/', (req, res) => {
 
 router.get('/test', controller.test)
 
-router.get('/all', controller.getAll)
+router.post('/all', controller.getAll)
 
 router.post('/insert', controller.insertABook)
 
 router.post('/register', controller.userRegister)
+
+router.post('/login', controller.userLogin)
 
 module.exports = router

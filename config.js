@@ -1,4 +1,4 @@
-const secret = 'supersecret'
+const config = { secret: 'supersecret'}
 
-module.exports = secret
+module.exports = config
 
